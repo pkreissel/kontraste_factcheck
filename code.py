@@ -44,12 +44,14 @@ grouped["floordate"].value_counts().sort_index()
 
 
 #Plotten nach Fraktionen aufgeteilt:
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 5))
 grouped.groupby("Fraktion/Gruppe").apply(lambda x: x.plot(x = "floordate", y = "nichtabgegeben", ax=ax, label = x.name))
+
+data.groupby("floordate").mean().plot(y ="nichtabgegeben" ,ax=ax, color="grey", label = "Durchschnitt")
 
 #Bauen wir noch die richtigen Farben ein:
 grouped.groupby("Fraktion/Gruppe").apply(lambda x: print(x.name))
-col = ["blue", "green", "black", "pink", "yellow", "red"]
+col = ["blue", "green", "black", "pink", "yellow", "red", "grey"]
 for i, axis in enumerate(ax.get_lines()):
     print(axis.get_label())
     ax.get_legend().legendHandles[i].set_color(col[i])
@@ -64,6 +66,7 @@ ax.text("2019-10-10",0.15,'Kontraste Beitrag',rotation=90, color = "red")
 
 #Bisschen Abstand, damit die zweite Linie reinpasst:
 ax.set_xlim(right = "2019-10-31")
+ax.set_xlabel("Monat")
 
-#Fertig ist das Mondgesicht: 
+#Fertig ist das Mondgesicht:
 fig.savefig("plots/plot.png")
